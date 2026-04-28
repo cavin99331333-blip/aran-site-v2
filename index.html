@@ -961,6 +961,18 @@
       transform: translateY(-2px) scale(1.08);
     }
 
+    .btn-action.red {
+      border-color: var(--prp-color);
+      color: var(--prp-color);
+    }
+
+    .btn-action.red:hover {
+      background: var(--prp-color);
+      color: white;
+      box-shadow: 0 8px 24px rgba(249, 56, 34, 0.3);
+      transform: translateY(-2px) scale(1.08);
+    }
+
     /* ===================== NAVIGATION ===================== */
     .nav-container {
       position: fixed;
@@ -1636,7 +1648,7 @@
         } else if (slide.type === 'manufacturer') {
           var productsHTML = slide.products.map(function(product, pIdx) {
             var buttonColor = 'teal';
-            var alternateButtonColor = 'navy';
+            var alternateButtonColor = 'red';
 
             return `
               <div class="product-card ${slide.category.toLowerCase()}" style="animation-delay:${pIdx * 0.1}s">
