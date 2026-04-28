@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>아란의원 - 프리미엄 재생의료 솔루션</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- PNG Export -->
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+
+  <style>
+    /* ===================== RESET & BASE ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root,
+    html.theme-dark {
+      --bg: #0A0A0A;
+      --surface: #141414;
+      --surface-2: #1e1e1e;
+      --text: #EDEDED;
+      --text-2: #888888;
+      --accent: #6BD3D6;
+      --accent-2: #8b5cf6;
+      --border: rgba(255,255,255,0.08);
+      --positive: #10b981;
+      --negative: #f43f5e;
+      --warning: #f59e0b;
+      --svf-color: #00249C;
+      --prp-color: #F93822;
+      --button-teal: #6BD3D6;
+      --button-navy: #000080;
+      --feature-text: #222226;
+    }
+
+    html.theme-light {
+      --bg: #FAFAF9;
+      --surface: #FFFFFF;
+      --surface-2: #f4f4f5;
+      --text: #1a1a1a;
+      --text-2: #666666;
+      --accent: #6BD3D6;
+      --accent-2: #7c3aed;
+      --border: rgba(0,0,0,0.08);
+      --positive: #059669;
+      --negative: #e11d48;
+      --warning: #d97706;
+      --svf-color: #00249C;
+      --prp-color: #F93822;
+      --button-teal: #5AB9BC;
+      --button-navy: #000080;
+      --feature-text: #222226;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      letter-spacing: -0.011em;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* ===================== TYPOGRAPHY ===================== */
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+    h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 600; letter-spacing: -0.02em; }
+    h3 { font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 600; }
+    p  { color: var(--text-2); }
+
+    /* ===================== FULLSCREEN SLIDE ===================== */
+    main {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      overflow: hidden;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .slide-content {
+      width: 100%;
+      height: 100%;
+      padding: 40px 80px 140px 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide.mfg-slide .slide-content {
+      padding-top: 20px;
+      padding-bottom: 140px;
+      justify-content: flex-start;
+    }
+
+    /* ===================== GLASSMORPHISM ===================== */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .glass-card.svf {
+      border-color: rgba(255, 193, 7, 0.2);
+      box-shadow: 0 8px 32px rgba(255, 193, 7, 0.1);
+    }
+
+    .glass-card.prp {
+      border-color: rgba(255, 68, 68, 0.2);
+      box-shadow: 0 8px 32px rgba(255, 68, 68, 0.1);
+    }
+
+    /* ===================== HOME SLIDE ===================== */
+    .home-hero {
+      text-align: center;
+      max-width: 800px;
+    }
+
+    .logo-container {
+      margin-bottom: 40px;
+      animation: slideDown 0.8s ease both;
+      position: relative;
+    }
+
+    .logo-circle {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(107, 211, 214, 0.2), rgba(139, 92, 246, 0.1));
+      border: 3px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--accent);
+      position: relative;
+      box-shadow: 0 0 30px rgba(107, 211, 214, 0.3), inset 0 0 30px rgba(107, 211, 214, 0.1);
+      animation: glow 3s ease-in-out infinite, scaleIn 1s ease-out both;
+      letter-spacing: -0.05em;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .logo-circle:hover {
+      animation: rotateSway 0.8s ease-in-out infinite, glow 1.5s ease-in-out infinite, spin 2s linear infinite;
+    }
+
+    .logo-circle::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: var(--accent);
+      border-right-color: var(--accent);
+      animation: spin 4s linear infinite;
+      opacity: 0.3;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===================== CLINIC NAME (2 lines) ===================== */
+    .clinic-name {
+      animation: fadeInUp 0.8s ease both 0.1s;
+      margin-bottom: 50px;
+      width: 100%;
+    }
+
+    .clinic-subtitle {
+      font-size: 1rem;
+      color: var(--text-2);
+      font-weight: 500;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .clinic-subtitle:hover {
+      color: var(--accent);
+      text-shadow: 0 0 20px rgba(107, 211, 214, 0.8), 0 0 40px rgba(107, 211, 214, 0.4);
+      transform: scale(1.1);
+    }
+
+    .clinic-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .clinic-title:hover {
+      color: var(--accent);
+      text-shadow: 0 0 30px rgba(107, 211, 214, 1), 0 0 60px rgba(107, 211, 214, 0.6);
+      transform: scale(1.08) translateY(-2px);
+    }
+
+    /* ===================== CATEGORY BUTTONS (Large 3:4) ===================== */
+    .button-group-large {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease both 0.2s;
+      margin-bottom: 40px;
+    }
+
+    .btn-large {
+      width: 220px;
+      aspect-ratio: 3 / 4;
+      padding: 32px 24px;
+      border: 2px solid;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      line-height: 1.4;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-large-prp {
+      border-color: var(--prp-color);
+      color: var(--prp-color);
+    }
+
+    .btn-large-prp:hover {
+      background: #F93822;
+      color: white;
+      box-shadow: 0 20px 80px rgba(249, 56, 34, 0.6), inset 0 0 30px rgba(255, 255, 255, 0.1);
+      transform: translateY(-8px) scale(1.05);
+      border-color: #F93822;
+    }
+
+    .btn-large-prp:active {
+      transform: translateY(-2px) scale(0.98);
+    }
+
+    .btn-large-svf {
+      border-color: var(--svf-color);
+      color: var(--svf-color);
+    }
+
+    .btn-large-svf:hover {
+      background: #00249C;
+      color: white;
+      box-shadow: 0 20px 80px rgba(0, 36, 156, 0.6), inset 0 0 30px rgba(255, 255, 255, 0.1);
+      transform: translateY(-8px) scale(1.05);
+      border-color: #00249C;
+    }
+
+    .btn-large-svf:active {
+      transform: translateY(-2px) scale(0.98);
+    }
+
+    .btn-large-text-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .btn-large-text-desc {
+      font-size: 0.95rem;
+      font-weight: 500;
+      opacity: 0.85;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .btn-large-text-title {
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .btn-arrow {
+      font-size: 1.5rem;
+      margin-top: 8px;
+      opacity: 0.5;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .btn-large:hover .btn-large-text-title {
+      transform: scale(1.15);
+      color: white;
+    }
+
+    .btn-large:hover .btn-large-text-desc {
+      transform: translateY(-4px);
+      opacity: 1;
+      color: white;
+    }
+
+    .btn-large:hover .btn-arrow {
+      transform: translateX(8px);
+      opacity: 1;
+    }
+
+    /* ===================== HOME BUTTON ===================== */
+    .button-group-home {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 500;
+    }
+
+    .btn-home {
+      width: 100px;
+      height: 100px;
+      padding: 14px;
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.8rem;
+      line-height: 1.2;
+      background: rgba(107, 211, 214, 0.08);
+      backdrop-filter: blur(10px);
+      color: var(--accent);
+      gap: 4px;
+    }
+
+    .btn-home:hover {
+      background: rgba(107, 211, 214, 0.15);
+      color: #7DDEEE;
+      box-shadow: 0 12px 40px rgba(107, 211, 214, 0.3);
+      transform: translateY(-4px) scale(1.05);
+    }
+
+    .btn-home:active {
+      transform: translateY(-2px) scale(0.98);
+    }
+
+    .btn-home-icon {
+      font-size: 1.8rem;
+    }
+
+    .btn-home-text {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===================== INTRO SLIDE ===================== */
+    .intro-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      max-width: 1200px;
+      animation: fadeInUp 0.8s ease both;
+    }
+
+    .intro-card {
+      animation: slideInLeft 0.8s ease both;
+    }
+
+    .intro-card.prp-card {
+      animation: slideInRight 0.8s ease both;
+    }
+
+    .intro-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      margin-bottom: 24px;
+      background: rgba(107, 211, 214, 0.1);
+      border: 2px solid var(--accent);
+    }
+
+    .intro-card.svf .intro-icon {
+      background: rgba(255, 193, 7, 0.15);
+      border-color: var(--svf-color);
+      color: var(--svf-color);
+    }
+
+    .intro-card.prp .intro-icon {
+      background: rgba(255, 68, 68, 0.15);
+      border-color: var(--prp-color);
+      color: var(--prp-color);
+    }
+
+    .intro-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .intro-text {
+      font-size: 1.2rem;
+      color: var(--text-2);
+      line-height: 1.8;
+    }
+
+    /* ===================== ANIMATIONS ===================== */
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ===================== MANUFACTURER INTRO SLIDE ===================== */
+    .mfg-intro-header {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: slideDown 0.8s ease both;
+    }
+
+    .mfg-intro-title {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .mfg-intro-header:hover .mfg-intro-title {
+      transform: scale(1.02);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+
+    .mfg-intro-prp:hover .mfg-intro-title {
+      color: var(--prp-color);
+      text-shadow: 0 0 15px rgba(249, 56, 34, 0.8), 0 0 30px rgba(249, 56, 34, 0.5);
+    }
+
+    .mfg-intro-svf:hover .mfg-intro-title {
+      color: var(--svf-color);
+      text-shadow: 0 0 15px rgba(0, 36, 156, 0.8), 0 0 30px rgba(0, 36, 156, 0.5);
+    }
+
+    .mfg-intro-badge {
+      display: none;
+    }
+
+    .badge-svf {
+      background: rgba(255, 193, 7, 0.2);
+      color: var(--svf-color);
+      border: 1px solid var(--svf-color);
+    }
+
+    .badge-prp {
+      background: rgba(255, 68, 68, 0.2);
+      color: var(--prp-color);
+      border: 1px solid var(--prp-color);
+    }
+
+    .mfg-cards-container {
+      width: 100%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      max-height: none;
+      overflow: visible;
+      padding-right: 60px;
+      padding-left: 0;
+    }
+
+    .mfg-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: fadeInUp 0.8s ease both;
+      display: grid;
+      grid-template-columns: 50px 150px 1.5fr 80px;
+      grid-template-rows: auto auto auto;
+      gap: 10px 16px;
+      align-items: start;
+    }
+
+    .mfg-card:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 20px 60px rgba(107, 211, 214, 0.25);
+      transform: translateY(-6px) scale(1.02);
+    }
+
+    .mfg-card:active {
+      transform: translateY(-2px) scale(0.98);
+    }
+
+    .mfg-card.svf {
+      border-color: rgba(0, 36, 156, 0.3);
+    }
+
+    .mfg-card.svf:hover {
+      border-color: var(--svf-color);
+      box-shadow: 0 12px 48px rgba(0, 36, 156, 0.2);
+    }
+
+    .mfg-card.prp {
+      border-color: rgba(249, 56, 34, 0.3);
+    }
+
+    .mfg-card.prp:hover {
+      border-color: var(--prp-color);
+      box-shadow: 0 12px 48px rgba(249, 56, 34, 0.2);
+    }
+
+    .mfg-card-content {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      justify-content: space-between;
+    }
+
+    .mfg-card-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      background: rgba(255, 255, 255, 0.08);
+      flex-shrink: 0;
+      grid-row: 1 / 5;
+      grid-column: 1;
+    }
+
+    .mfg-card-info {
+      display: contents;
+    }
+
+    .mfg-card-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      grid-row: 1;
+      grid-column: 2;
+      align-self: center;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .mfg-card:hover .mfg-card-name {
+      transform: scale(1.02);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+    }
+
+    .mfg-card-feature {
+      font-size: 0.85rem;
+      color: var(--text-2);
+      line-height: 1.6;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: normal;
+      overflow: visible;
+      grid-column: 3;
+      text-align: left;
+      font-weight: 500;
+      min-height: 1.36rem;
+      cursor: pointer;
+    }
+
+    .mfg-card:hover .mfg-card-feature {
+      /* 특징 텍스트 호버 효과 없음 */
+    }
+
+    .mfg-feature-0 {
+      grid-row: 1;
+      animation-delay: 0s;
+      font-size: 0.9rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .mfg-feature-1 {
+      grid-row: 2;
+      animation-delay: 0.1s;
+      font-size: 0.75rem;
+      color: var(--text-2);
+      font-weight: 400;
+    }
+
+    .mfg-feature-2 {
+      grid-row: 3;
+      animation-delay: 0.2s;
+      font-size: 0.75rem;
+      color: var(--text-2);
+      font-weight: 400;
+    }
+
+    .mfg-card:hover .mfg-card-feature {
+      /* 호버 효과 제거됨 */
+    }
+
+    .mfg-card-tagline {
+      display: none;
+    }
+
+    .mfg-card-arrow {
+      display: none;
+    }
+
+    .mfg-card {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .mfg-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .mfg-card:hover .mfg-card-arrow {
+      transform: translateX(8px);
+      color: var(--accent);
+    }
+
+    /* ===================== MANUFACTURER SLIDE ===================== */
+    .manufacturer-header {
+      width: 100%;
+      margin-bottom: 40px;
+      animation: slideDown 0.8s ease both;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+    }
+
+    .manufacturer-header-content {
+      flex: 1;
+      text-align: center;
+    }
+
+    .manufacturer-header-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .manufacturer-title {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .manufacturer-title:hover {
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+      transform: scale(1.02);
+    }
+
+    .manufacturer-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-top: 0;
+      white-space: nowrap;
+    }
+
+    .mfg-card .manufacturer-badge {
+      margin-top: 0;
+      grid-row: 1;
+      grid-column: 4;
+      align-self: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .mfg-card .manufacturer-badge:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(0, 36, 156, 0.8), 0 0 40px rgba(0, 100, 200, 0.5);
+      border-color: rgba(0, 36, 156, 0.8);
+    }
+
+    .manufacturer-feature-line {
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 6px;
+      display: inline;
+    }
+
+    .manufacturer-feature-line:hover {
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+      transform: scale(1.02);
+    }
+
+    .products-container {
+      width: 100%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding-right: 20px;
+      align-content: start;
+    }
+
+    .product-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInUp 0.8s ease both;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      height: 540px;
+      width: 100%;
+    }
+
+    .product-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transform: translateY(-8px) scale(1.02);
+    }
+
+    .product-card.svf {
+      border-color: rgba(0, 36, 156, 0.4);
+    }
+
+    .product-card.svf:hover {
+      border-color: rgba(0, 36, 156, 0.6);
+      box-shadow: 0 20px 60px rgba(0, 36, 156, 0.15);
+    }
+
+    .product-card.prp {
+      border-color: rgba(249, 56, 34, 0.4);
+    }
+
+    .product-card.prp:hover {
+      border-color: rgba(249, 56, 34, 0.6);
+      box-shadow: 0 20px 60px rgba(249, 56, 34, 0.15);
+    }
+
+    .product-image-wrapper {
+      width: 100%;
+      height: 260px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .product-model {
+      font-size: 0.75rem;
+      color: var(--text-2);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .product-model:hover {
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+      transform: scale(1.02);
+    }
+
+    .product-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .product-name:hover {
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+      transform: scale(1.02);
+    }
+
+    .product-price {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #E63946;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .product-price:hover {
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+      transform: scale(1.02);
+    }
+
+    .product-feature {
+      padding: 12px 16px;
+      background: #e9e9e5;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--feature-text);
+      line-height: 1.4;
+      font-weight: 500;
+      display: block;
+      width: 100%;
+      text-align: left;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    .product-feature:hover {
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+      transform: scale(1.02);
+    }
+
+    .product-feature::before {
+      content: "✨";
+      margin-right: 6px;
+      font-size: 0.9rem;
+    }
+
+    .product-feature.svf {
+      border-color: var(--svf-color);
+      background: #e9e9e5;
+      color: var(--feature-text);
+    }
+
+    .product-feature.svf:hover {
+      background: rgba(0, 36, 156, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 36, 156, 0.2);
+    }
+
+    .product-feature.prp {
+      border-color: var(--prp-color);
+      background: #e9e9e5;
+      color: var(--feature-text);
+    }
+
+    .product-feature.prp:hover {
+      background: rgba(249, 56, 34, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(249, 56, 34, 0.2);
+    }
+
+    .product-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-action {
+      padding: 10px 12px;
+      font-size: 0.75rem;
+      border: 1px solid;
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-weight: 600;
+      flex: 1;
+      min-width: 70px;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .btn-action.teal {
+      border-color: var(--button-teal);
+      color: var(--button-teal);
+    }
+
+    .btn-action.teal:hover {
+      background: var(--button-teal);
+      color: white;
+      box-shadow: 0 8px 24px rgba(107, 211, 214, 0.3);
+      transform: translateY(-2px) scale(1.08);
+    }
+
+    .btn-action.navy {
+      border-color: var(--button-navy);
+      color: var(--button-navy);
+    }
+
+    .btn-action.navy:hover {
+      background: var(--button-navy);
+      color: white;
+      box-shadow: 0 8px 24px rgba(0, 0, 128, 0.3);
+      transform: translateY(-2px) scale(1.08);
+    }
+
+    /* ===================== NAVIGATION ===================== */
+    .nav-container {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      z-index: 500;
+      animation: slideUp 0.8s ease both 0.5s;
+    }
+
+    .nav-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-4px) scale(1.1);
+      box-shadow: 0 8px 24px rgba(107, 211, 214, 0.3);
+    }
+
+    .nav-btn:active {
+      transform: translateY(-2px) scale(0.95);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .progress-bar {
+      width: 100px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: width 0.3s ease;
+    }
+
+    .progress-bar:hover {
+      width: 120px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    .page-indicator {
+      font-size: 0.8rem;
+      color: var(--text-2);
+      font-weight: 600;
+      min-width: 45px;
+      text-align: center;
+      margin-left: 8px;
+      text-align: center;
+    }
+
+    .nav-home {
+      display: none;
+    }
+
+    .nav-home:hover {
+      background: rgba(107, 211, 214, 0.2);
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    /* ===================== CATEGORY MENU ===================== */
+    .category-menu {
+      position: fixed;
+      bottom: 110px;
+      right: 40px;
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      z-index: 500;
+      animation: slideInLeft 0.8s ease both;
+    }
+
+    .category-menu.hidden {
+      display: none;
+    }
+
+    .category-menu.header-inline {
+      position: static;
+      bottom: auto;
+      right: auto;
+      flex-direction: row;
+    }
+
+    .category-btn {
+      width: 90px;
+      height: 90px;
+      border-radius: 14px;
+      border: 2px solid;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .category-btn.svf {
+      border-color: var(--svf-color);
+      color: var(--svf-color);
+      order: 2;
+    }
+
+    .category-btn.svf:hover {
+      background: var(--svf-color);
+      color: white;
+      box-shadow: 0 8px 24px rgba(0, 36, 156, 0.3);
+      transform: scale(1.1);
+    }
+
+    .category-btn.prp {
+      border-color: var(--prp-color);
+      color: var(--prp-color);
+      order: 1;
+    }
+
+    .category-btn.prp:hover {
+      background: var(--prp-color);
+      color: white;
+      box-shadow: 0 8px 24px rgba(249, 56, 34, 0.3);
+      transform: scale(1.1);
+    }
+
+    /* ===================== UTILITY MENU ===================== */
+    .menu-container {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1000;
+    }
+
+    .menu-toggle {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.15s, box-shadow 0.15s;
+    }
+
+    .menu-toggle:hover {
+      background: var(--surface-2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .menu-dropdown {
+      display: none;
+      position: absolute;
+      top: 48px;
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px;
+      min-width: 160px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .menu-dropdown.open { display: block; }
+
+    .menu-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.875rem;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.1s;
+    }
+
+    .menu-btn:hover { background: var(--surface-2); }
+
+    /* ===================== ANIMATIONS ===================== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(30px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.5) translateY(-40px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    @keyframes rotateSway {
+      0%, 100% { transform: scale(1.08) rotateZ(-5deg); }
+      50% { transform: scale(1.08) rotateZ(5deg); }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 10px rgba(107, 211, 214, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(107, 211, 214, 0.8); }
+    }
+
+    @keyframes slideInLeftStagger {
+      from { opacity: 0; transform: translateX(-40px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInRightStagger {
+      from { opacity: 0; transform: translateX(40px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+
+    /* ===================== ENTRY ANIMATIONS ===================== */
+    .slide.active .slide-content {
+      animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .slide.active .home-hero {
+      animation: scaleIn 0.8s ease-out both;
+    }
+
+    .slide.active .mfg-intro-header {
+      animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .slide.active .manufacturer-header {
+      animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .slide.active .mfg-card {
+      animation: slideInUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .slide.active .product-card {
+      animation: slideInUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .slide.active .btn-large {
+      animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    /* ===================== SCROLLBAR ===================== */
+    .products-container::-webkit-scrollbar,
+    .mfg-cards-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .products-container::-webkit-scrollbar-track,
+    .mfg-cards-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .products-container::-webkit-scrollbar-thumb,
+    .mfg-cards-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+    }
+
+    .products-container::-webkit-scrollbar-thumb:hover,
+    .mfg-cards-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* ===================== PRINT ===================== */
+    @media print {
+      .menu-container, .nav-container, .nav-home, .category-menu { display: none !important; }
+    }
+
+    /* ===================== REDUCED MOTION ===================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Utility Menu -->
+  <div class="menu-container">
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Options menu">⋯</button>
+    <div class="menu-dropdown" id="menuDropdown">
+      <button class="menu-btn" onclick="cycleTheme()">
+        <span>◐</span> Toggle theme
+      </button>
+      <button class="menu-btn" onclick="downloadPNG()">
+        <span>⤓</span> Download PNG
+      </button>
+      <button class="menu-btn" onclick="window.print()">
+        <span>⎙</span> Print / PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- Home Button -->
+  <button class="nav-home" onclick="goToSlide(0)" title="홈으로">🏠</button>
+
+  <!-- Category Menu -->
+  <div class="category-menu" id="categoryMenu">
+    <button class="category-btn prp" onclick="goToPRPIntroSlide()" title="PRP 제조사">PRP</button>
+    <button class="category-btn svf" onclick="goToSVFIntroSlide()" title="SVF 제조사">SVF</button>
+  </div>
+
+  <!-- Home Button (Fixed on all pages) -->
+  <div class="button-group-home">
+    <button class="btn-home" onclick="goToSlide(0)">
+      <div class="btn-home-icon">🏠</div>
+      <div class="btn-home-text">HOME</div>
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- SLIDES WILL BE GENERATED BY JAVASCRIPT -->
+  </main>
+
+  <!-- Navigation -->
+  <div class="nav-container">
+    <button class="nav-btn" onclick="previousSlide()" id="prevBtn">❮</button>
+    <div class="page-indicator" id="pageIndicator">1 / 12</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <button class="nav-btn" onclick="nextSlide()" id="nextBtn">❯</button>
+  </div>
+
+  <script>
+    // ===================== DATA STRUCTURE =====================
+    var productData = {
+      svf: [
+        {
+          name: "메디칸",
+          icon: "🏥",
+          tagline: "장비 1대로 끝, Reprocessing으로 수율 극대화",
+          description: ["글로벌 시장에서 검증된 SVF 추출 자동화의 표준", "지방 줄기세포 연구를 위한 다양한 라인업과 부대 장비 확보", "대용량 처리 가능한 콤비네이션 시스템과 풍부한 임상 레퍼런스 보유"],
+          features: ["대용량 처리 가능한 콤비네이션 시스템과 풍부한 임상 레퍼런스 보유", "지방 줄기세포 연구를 위한 다양한 라인업과 부대 장비 확보", "글로벌 시장에서 검증된 SVF 추출 자동화의 표준"],
+          products: [
+            { modelName: "LIPOKIT NEO", title: "지방흡입", price: "16,500,000", feature: "정밀한 지방흡입 시스템", image: "https://kor.medikan.co.kr/rsc/front/images/common/product_img6.jpg", detail: "https://kor.medikan.co.kr/user/movePage/45/view", video: "https://youtu.be/uEC29MN9eUE", category: "SVF" },
+            { modelName: "STEM-XE Combi", title: "SVF추출", price: "27,500,000", feature: "장비 1대로 끝, 버튼 하나로 끝내는 전자동, 수율 극대화", image: "https://kor.medikan.co.kr/rsc/front/images/common/product_img12.jpg", detail: "https://kor.medikan.co.kr/user/movePage/41/view", video: "https://www.youtube.com/watch?t=5&v=kmAvLvbc6W0", category: "SVF" },
+            { modelName: "Inner Chamber", title: "STEM-XE 전용키트", price: "110,000", feature: "밀폐형 SVF 추출 키트", image: "https://kor.medikan.co.kr/rsc/front/images/common/product_img4.jpg", detail: "https://kor.medikan.co.kr/user/movePage/43/view", video: "https://youtu.be/1wH2IsgY3l4?si=4s86RXoMXm6PkbN9", category: "SVF" },
+            { modelName: "FillerGeller", title: "지방분쇄", price: "11,000,000", feature: "정밀한 지방 분쇄 장비", image: "https://kor.medikan.co.kr/rsc/front/images/common/product_img16.jpg", detail: "https://kor.medikan.co.kr/user/movePage/59/view", video: "https://youtu.be/RJQ8PB6ro5k", category: "SVF" },
+            { modelName: "STORAGEBOX P", title: "배양기", price: "44,000,000", feature: "최적의 세포 배양 환경 제공", image: "https://kor.medikan.co.kr/rsc/front/images/common/product_img9.jpg", detail: "https://kor.medikan.co.kr/user/movePage/48/view", video: "", category: "SVF" },
+            { modelName: "CELLTIVATOR GT", title: "세포분리", price: "7,700,000", feature: "고속 세포 분리 기술", image: "https://kor.medikan.co.kr/rsc/front/images/common/product_img8.jpg", detail: "https://kor.medikan.co.kr/user/movePage/47/view", video: "https://youtu.be/l7AlP_0LeJM?si=YMaJ1Ho94qxdgAKj", category: "SVF" }
+          ]
+        },
+        {
+          name: "엔바이오텍",
+          icon: "💡",
+          tagline: "90% 생존율·5000만 개 수율, PRP 병행 시술 가능",
+          description: ["연구 장비 기술력이 만든 오염 없는 SVF", "FDA 510K 등 국제 규격 인증을 통한 글로벌 신뢰도 확보", "세포 배양 특화 기술을 적용하여 표준화된 세포 회수율과 안전성 보장"],
+          features: ["세포 배양 특화 기술을 적용하여 표준화된 세포 회수율과 안전성 보장", "FDA 510K 등 국제 규격 인증을 통한 글로벌 신뢰도 확보", "연구 장비 기술력이 만든 오염 없는 SVF"],
+          products: [
+            { modelName: "STEMPIA KIT", title: "SVF키트", price: "9,900,000", feature: "90% 생존율·5000만 개 수율, 외부 환경 비노출 밀폐 구조 (330,000*30)", image: "https://i.imgur.com/KFWbE2t.png", detail: "https://www.n-biotek.com/kr/stemcell/business/system_product_kit.php#content", video: "https://youtu.be/1hHQkL6T7lo", category: "SVF" },
+            { modelName: "NB-803MS", title: "멀티워크스테이션", price: "27,500,000", feature: "올인원 클린벤치", image: "https://i.imgur.com/zFXTE9D.png", detail: "https://www.n-biotek.com/en/equipment/equipment_view.php?idx=40&part_idx=8", video: "https://youtu.be/we6FGoktao8", category: "SVF" },
+            { modelName: "LED CELL ACTIVATOR", title: "세포활성기", price: "3,300,000", feature: "LED 기술로 세포 활성화", image: "https://n-biotek.com/data/goodsImages/ADD_GOODS1_164195354120220112131956.png", detail: "https://n-biotek.com/en/equipment/equipment_view.php?idx=46&part_idx=9", video: "https://youtu.be/ARRqo3pnVUM", category: "SVF" }
+          ]
+        },
+        {
+          name: "비에스엘",
+          icon: "🧪",
+          tagline: "유핵세포 수율 타사 대비 2배, CE·510k 이중 인증",
+          description: ["고정밀 세포 추출 솔루션", "의료기기 특허 및 전문 인증 기반의 기술적 안정성", "인체공학 설계로 시술 효율 높이고 일관된 농축 결과 도출"],
+          features: ["인체공학 설계로 시술 효율 높이고 일관된 농축 결과 도출", "의료기기 특허 및 전문 인증 기반의 기술적 안정성", "고정밀 세포 추출 솔루션"],
+          products: [
+            { modelName: "ACS se", title: "지방분리자동화장비", price: "16,500,000", feature: "FDA510K·CE 이중 인증, 자동 분리로 증명된 세포 수율", image: "https://www.emedimall.com/shop/data/editor/1558066527.png", detail: "https://biosl.com/kr/?p=2977", video: "https://www.youtube.com/watch?v=4JjCnljPFBg", category: "SVF" },
+            { modelName: "ACPU-100 KIT", title: "ACS 전용키트", price: "2,200,000", feature: "4세트 구성의 전용 키트 (550,000*4)", image: "https://equipforskin.com/wp-content/uploads/2024/04/IMG_0053-1024x683.jpg", detail: "https://biosl.com/kr/?p=2976", video: "https://youtu.be/t4rHy3dFHII?si=Uyjd967lxrJl8wwV", category: "SVF" },
+            { modelName: "SMART SVF KIT", title: "스마트 SVF 키트", price: "1,375,000", feature: "5세트 구성, 편리한 사용성 (275,000*5)", image: "https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTJfMTQz/MDAxNTkxOTMxMjQ1MTQy.GvutcXgPNl7t-zXoCXQaip0TwjHKoLQDb4E5p5g-3l0g.yCAi3PJaEw3nceVoQ9cc47o_9YhhHMwuviBNwXHGf54g.JPEG.kbicstartup/Smart_kit.jpg?type=w800", detail: "https://biosl.com/kr/?p=2974", video: "https://youtu.be/EGLwy6wQBwU", category: "SVF" }
+          ]
+        },
+        {
+          name: "유스템바이오",
+          icon: "⚙️",
+          tagline: "레버만 돌리면 10분, 초기 장비 투자 제로",
+          description: ["재생 의학 시술 완성도 향상", "분리부터 배양까지 일관된 시스템 제공", "통합 공정 기술을 통한 세포 활성 최적화"],
+          features: ["통합 공정 기술을 통한 세포 활성 최적화", "분리부터 배양까지 일관된 시스템 제공", "재생 의학 시술 완성도 향상"],
+          products: [
+            { modelName: "USTEM SVF KIT", title: "SVF키트", price: "9,900,000", feature: "레버만 돌리면 10분, 초기 장비 투자 제로 (660,000*15)", image: "https://cdn.imweb.me/thumbnail/20241212/0d63e5ee4bd6d.png", detail: "https://ustem.co.kr/", video: "https://youtu.be/cN2TEr91_Ds", category: "SVF" },
+            { modelName: "Centrifuge/유스템", title: "원심분리기", price: "3,300,000", feature: "안정적인 세포 분리", image: "https://i.imgur.com/rQF9k5Z.png", detail: "", video: "https://youtu.be/cN2TEr91_Ds?si=_1eDJK4qLM3u6AsC", category: "SVF" },
+            { modelName: "Shaking incubator/유스템", title: "인큐베이터", price: "2,400,000", feature: "정밀한 세포 배양", image: "https://i.imgur.com/YjPxm3x.jpeg", detail: "", video: "", category: "SVF" }
+          ]
+        },
+        {
+          name: "듀오셀",
+          icon: "🔬",
+          tagline: "이중 챔버·이중 필터로 완벽 밀폐, 로스율 최소",
+          description: ["신뢰도 높은 재생 솔루션 제공", "임상적으로 유효성이 입증된 프로토콜", "신의료기술이 인증한 관절·조직 재생의 핵심"],
+          features: ["임상적으로 유효성이 입증된 프로토콜을 바탕", "신의료기술이 인증한 관절·조직 재생의 핵심", "신뢰도 높은 재생 솔루션 제공"],
+          products: [
+            { modelName: "DUOCELL SVF KIT", title: "SVF키트", price: "13,200,000", feature: "이중 챔버·이중 필터로 완벽 밀폐, 로스율 최소 (660,000*20)", image: "https://img.kompass.com/sys-master-images/h09/h3e/9724690104350/duocell-png", detail: "https://duocellsvf.co.kr/", video: "https://youtu.be/X1V-qTqHgHQ", category: "SVF" },
+            { modelName: "Centrifuge/듀오셀", title: "원심분리기", price: "3,500,000", feature: "무상임대 가능", image: "https://i.imgur.com/IlMM6H6.jpeg", detail: "", video: "", category: "SVF" },
+            { modelName: "Shaking Incubator/듀오셀", title: "회전식 인큐베이터", price: "2,700,000", feature: "무상임대 가능", image: "https://i.imgur.com/i5zn0of.jpeg", detail: "", video: "", category: "SVF" }
+          ]
+        }
+      ],
+      prp: [
+        {
+          name: "프로디젠",
+          icon: "🩸",
+          tagline: "빠른 분리, 높은 농축, 확실한 재생확장",
+          description: ["GFC+ 성장인자 농축 1세대 PRP노하우", "항노화·두피·피부 재생 프로그램 스토리텔링에 용이"],
+          features: ["빠른 분리와 성장인자의 높은 농축", "버피코트층 정확한 추출", "전신 항노화에 특화"],
+          products: [
+            { modelName: "라쥬니스 PRP KIT", title: "PRP키트", price: "4,400,000", feature: "빠른 분리, 높은 농축, 확실한 재생확장 (220,000*20)", image: "https://cdn.imweb.me/thumbnail/20250905/a402ba947da7a.jpg", detail: "https://prosysglobal.com/page/31", video: "https://youtu.be/Q8CSBWthLmY", category: "PRP" },
+            { modelName: "Centrifuge/프로디젠", title: "원심분리기", price: "1,980,000", feature: "고속 분리 기술 (TD5C)", image: "https://i.imgur.com/bDBi9bd.png", detail: "https://prosysglobal.com/page/37", video: "", category: "PRP" }
+          ]
+        },
+        {
+          name: "엑셀바이오",
+          icon: "✨",
+          tagline: "활성 PRF, 무항응고제, 시술 경쟁력",
+          description: ["항응고제 없이 PRF 기반 재생 접근이 가능", "액상 PRF 활용이 가능해 피부·두피·주사 기반 시술 조합이 유리"],
+          features: ["항응고제 없는 활성PRP", "주사가능 액상PRF(통증최소)", "성장인자 10일~14일 지속"],
+          products: [
+            { modelName: "ACT PRO AUTO", title: "혈액활성화장치", price: "15,400,000", feature: "자동 활성화로 효율성 극대화", image: "https://actcellbio.co.kr/wp-content/uploads/2023/11/ACT-PRO-AUTO.png", detail: "https://actcellbio.co.kr/%ec%a0%9c%ed%92%88-%eb%a6%ac%ec%8a%a4%ed%8a%b8/", video: "https://youtu.be/mfcx0cDFQqM?si=73K-BrMt4iJqkl-M", category: "PRP" },
+            { modelName: "ACT PRF KIT", title: "PRF키트", price: "2,250,000", feature: "활성 PRF, 무항응고제 (45,000*50)", image: "https://actcellbio.co.kr/wp-content/uploads/2023/11/ACT-PRF.png", detail: "https://actcellbio.co.kr/%ec%a0%9c%ed%92%88-%eb%a6%ac%ec%8a%a4%ed%8a%b8/", video: "", category: "PRP" },
+            { modelName: "ACT PRP-D KIT", title: "PRP키트", price: "2,750,000", feature: "프리미엄 PRP 솔루션 (55,000*50)", image: "https://actcellbio.co.kr/wp-content/uploads/2023/11/ACT-PRP-D.png", detail: "https://actcellbio.co.kr/portfolio-items/act-prp-d/", video: "", category: "PRP" }
+          ]
+        },
+        {
+          name: "노바스템",
+          icon: "🌟",
+          tagline: "밀폐형 안정성, 세포농축, 고기능 자가혈액",
+          description: ["Full closed 시스템의 밀폐형 안정성 구조", "30cc 기반 다챔버 구조를 내세워 범용 분리 측면을 강조"],
+          features: ["Full closed 시스템의 밀폐형 안정성", "30cc 3챔버 2중 원심 분리", "Cell Zone 혈소판 농축"],
+          products: [
+            { modelName: "NOVASTEM PRP KIT", title: "PRP키트", price: "4,400,000", feature: "밀폐형 안정성, 세포농축, 고기능 자가혈액 (220,000*20)", image: "https://cdn.imweb.me/thumbnail/20241118/4612b74fab381.png", detail: "https://rev-med.co.kr/novastembc", video: "https://youtu.be/uLjvda85LOY", category: "PRP" },
+            { modelName: "Centrifuge/레보메드", title: "원심분리기", price: "1,980,000", feature: "정밀 분리 기술", image: "https://i.imgur.com/zkDejhS.png", detail: "", video: "", category: "PRP" }
+          ]
+        },
+        {
+          name: "와이셀바이오",
+          icon: "🎯",
+          tagline: "합리적 비용, 쉬운 도입, 높은 접근성",
+          description: ["13.5cc 혈소판 고농축(7-9배), 높은 PRP 시장점유율", "합리적 비용으로 쉬운 도입, 시장 인지도 측면 안정적인 기본 옵션"],
+          features: ["합리적 비용으로 쉬운 도입", "13.5cc 혈소판 고농축(7-9배)", "높은 PRP 시장 점유율"],
+          products: [
+            { modelName: "Ycellbio PRP KIT", title: "PRP키트", price: "1,760,000", feature: "합리적 비용, 쉬운 도입, 높은 접근성 (176,000*10)", image: "https://cdn.imweb.me/thumbnail/20251215/88d084ae5aa37.jpg", detail: "https://ko.ycellbio.com/prp", video: "https://youtu.be/-TOirvQgSu4", category: "PRP" },
+            { modelName: "Centrifuge/와이셀", title: "원심분리기", price: "1,980,000", feature: "안정적인 분리", image: "https://cdn.imweb.me/thumbnail/20251215/5708e39da4c97.jpg", detail: "https://ko.ycellbio.com/needle", video: "", category: "PRP" }
+          ]
+        }
+      ]
+    };
+
+    // ===================== STATE MANAGEMENT =====================
+    var currentSlide = 0;
+    var slides = [];
+    var themes = ['dark', 'light'];
+    var currentTheme = 1;  // 0 = dark, 1 = light (밝은 모드를 기본값으로 설정)
+
+    // ===================== INITIALIZE =====================
+    function initializePresentation() {
+      // 라이트모드를 기본값으로 강제 설정
+      currentTheme = 1;
+      document.documentElement.className = 'theme-light';
+
+      generateSlides();
+      renderAllSlides();
+      showSlide(0);
+      updateNavigation();
+    }
+
+    function generateSlides() {
+      // Slide 0: Home
+      slides.push({
+        type: 'home',
+        title: 'ARAN',
+        subtitle: '프리미엄 재생의료 솔루션'
+      });
+
+      // Slide 1: PRP Manufacturers Intro
+      slides.push({
+        type: 'mfg-intro',
+        category: 'PRP',
+        manufacturers: productData.prp
+      });
+
+      // Slides 2-5: PRP Manufacturers
+      productData.prp.forEach(function(mfg, index) {
+        slides.push({
+          type: 'manufacturer',
+          category: 'PRP',
+          name: mfg.name,
+          tagline: mfg.tagline,
+          icon: mfg.icon,
+          description: mfg.description,
+          products: mfg.products,
+          manufacturerIndex: index
+        });
+      });
+
+      // Slide 6: SVF Manufacturers Intro
+      slides.push({
+        type: 'mfg-intro',
+        category: 'SVF',
+        manufacturers: productData.svf
+      });
+
+      // Slides 7-11: SVF Manufacturers
+      productData.svf.forEach(function(mfg, index) {
+        slides.push({
+          type: 'manufacturer',
+          category: 'SVF',
+          name: mfg.name,
+          tagline: mfg.tagline,
+          icon: mfg.icon,
+          description: mfg.description,
+          products: mfg.products,
+          manufacturerIndex: index
+        });
+      });
+    }
+
+    function renderAllSlides() {
+      var main = document.getElementById('main-content');
+      main.innerHTML = '';
+
+      slides.forEach(function(slide, index) {
+        var slideEl = document.createElement('div');
+        slideEl.className = 'slide' + (slide.type === 'manufacturer' ? ' mfg-slide' : '');
+        slideEl.id = 'slide-' + index;
+
+        if (slide.type === 'home') {
+          slideEl.innerHTML = `
+            <div class="slide-content">
+              <div class="home-hero">
+                <div class="logo-container">
+                  <div class="logo-circle">ARAN</div>
+                </div>
+                <div class="clinic-name">
+                  <div class="clinic-subtitle">하이엔드 프라이빗 피부과</div>
+                  <div class="clinic-title">Aran Clinic(아란의원)</div>
+                </div>
+                <div class="button-group-large">
+                  <button class="btn-large btn-large-prp" onclick="goToPRPIntroSlide()">
+                    <div class="btn-large-text-title">PRP</div>
+                    <div class="btn-large-text-desc">혈액에서 얻는 성장인자</div>
+                    <div class="btn-arrow">→</div>
+                  </button>
+                  <button class="btn-large btn-large-svf" onclick="goToSVFIntroSlide()">
+                    <div class="btn-large-text-title">SVF</div>
+                    <div class="btn-large-text-desc">지방에서 얻는 재생세포</div>
+                    <div class="btn-arrow">→</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (slide.type === 'intro') {
+          slideEl.innerHTML = `
+            <div class="slide-content">
+              <div class="intro-container">
+                <div class="intro-card svf">
+                  <div class="intro-icon">💚</div>
+                  <h2 class="intro-title">SVF</h2>
+                  <p class="intro-text">지방에서 얻는 재생 세포</p>
+                </div>
+                <div class="intro-card prp">
+                  <div class="intro-icon">❤️</div>
+                  <h2 class="intro-title">PRP</h2>
+                  <p class="intro-text">혈액에서 얻는 성장 인자</p>
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (slide.type === 'mfg-intro') {
+          var mfgCardsHTML = slide.manufacturers.map(function(mfg, mIdx) {
+            var slideIndexForMfg = slide.category === 'PRP' ? (2 + mIdx) : (7 + mIdx);
+            var featuresHTML = (mfg.features || []).map(function(feature, featureIdx) {
+              return `<div class="mfg-card-feature mfg-feature-${featureIdx}" title="${feature}">• ${feature}</div>`;
+            }).join('');
+            return `
+              <div class="mfg-card ${slide.category.toLowerCase()}" onclick="goToSlide(${slideIndexForMfg})" style="animation-delay:${mIdx * 0.1}s">
+                <div class="mfg-card-icon">${mfg.icon}</div>
+                <div class="mfg-card-info">
+                  <div class="mfg-card-name">${mfg.name}</div>
+                  ${featuresHTML}
+                </div>
+                <div class="manufacturer-badge badge-${slide.category.toLowerCase()}">
+                  ${slide.category}${(slide.category === 'SVF' || slide.category === 'PRP') ? ' →' : ''}
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          slideEl.innerHTML = `
+            <div class="slide-content">
+              <div class="mfg-intro-header mfg-intro-${slide.category.toLowerCase()}">
+                <h1 class="mfg-intro-title">${slide.category} 제조사</h1>
+                <div class="mfg-intro-badge badge-${slide.category.toLowerCase()}">
+                  ${slide.category}${(slide.category === 'SVF' || slide.category === 'PRP') ? ' →' : ''}
+                </div>
+              </div>
+              <div class="mfg-cards-container">
+                ${mfgCardsHTML}
+              </div>
+            </div>
+          `;
+        } else if (slide.type === 'manufacturer') {
+          var productsHTML = slide.products.map(function(product, pIdx) {
+            var buttonColor = 'teal';
+            var alternateButtonColor = 'navy';
+
+            return `
+              <div class="product-card ${slide.category.toLowerCase()}" style="animation-delay:${pIdx * 0.1}s">
+                <div class="product-image-wrapper">
+                  ${product.image ? `<img src="${product.image}" alt="${product.title}" class="product-image" onerror="this.parentElement.style.background='rgba(255,255,255,0.05)'">` : ''}
+                </div>
+                <div class="product-info">
+                  <div class="product-model">${product.modelName}</div>
+                  <div class="product-name">${product.title}</div>
+                  <div class="product-price">₩ ${product.price}</div>
+                  <div class="product-feature ${slide.category.toLowerCase()}">
+                    ${product.feature}
+                  </div>
+                  <div class="product-buttons">
+                    ${product.detail ? `<a href="${product.detail}" target="_blank" class="btn-action ${buttonColor}">상세정보</a>` : ''}
+                    ${product.video ? `<a href="${product.video}" target="_blank" class="btn-action ${alternateButtonColor}">영상보기</a>` : ''}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          var descriptionHTML = '';
+          if (slide.description && Array.isArray(slide.description)) {
+            descriptionHTML = slide.description.map(function(desc) {
+              return `<span class="manufacturer-feature-line">${desc}</span>`;
+            }).join('<br>');
+          } else {
+            descriptionHTML = `
+              <span class="manufacturer-feature-line">🌍 글로벌 시장에서 검증된 SVF 추출 자동화의 표준</span><br>
+              <span class="manufacturer-feature-line">💪 대용량 처리 가능한 콤비네이션 시스템과 풍부한 임상 레퍼런스 보유</span><br>
+              <span class="manufacturer-feature-line">🧬 지방 줄기세포 연구를 위한 다양한 라인업과 부대 장비 확보</span>
+            `;
+          }
+
+          slideEl.innerHTML = `
+            <div class="slide-content">
+              <div class="manufacturer-header">
+                <div class="manufacturer-header-content">
+                  <h1 class="manufacturer-title">${slide.name}</h1>
+                  <p style="margin-top:24px;font-size:1.1rem;color:var(--text-2);max-width:700px;margin-left:auto;margin-right:auto;line-height:1.6;">
+                    ${descriptionHTML}
+                  </p>
+                </div>
+                <div class="manufacturer-header-badge">
+                  <div class="manufacturer-badge badge-${slide.category.toLowerCase()}">
+                    ${slide.category}
+                  </div>
+                </div>
+              </div>
+              <div class="products-container">
+                ${productsHTML}
+              </div>
+            </div>
+          `;
+        }
+
+        main.appendChild(slideEl);
+      });
+    }
+
+    // ===================== NAVIGATION =====================
+    function showSlide(index) {
+      if (index < 0 || index >= slides.length) return;
+
+      document.querySelectorAll('.slide').forEach(function(el) {
+        el.classList.remove('active');
+      });
+
+      currentSlide = index;
+      document.getElementById('slide-' + index).classList.add('active');
+      updateNavigation();
+    }
+
+    function nextSlide() {
+      showSlide(currentSlide + 1);
+    }
+
+    function previousSlide() {
+      showSlide(currentSlide - 1);
+    }
+
+    function goToSlide(index) {
+      showSlide(index);
+    }
+
+    function goToPRPIntroSlide() {
+      showSlide(1); // PRP intro slide (페이지 2)
+    }
+
+    function goToSVFIntroSlide() {
+      showSlide(6); // SVF intro slide (페이지 7)
+    }
+
+    function updateNavigation() {
+      document.getElementById('prevBtn').disabled = currentSlide === 0;
+      document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+      document.getElementById('pageIndicator').textContent = (currentSlide + 1) + ' / ' + slides.length;
+
+      var progress = ((currentSlide + 1) / slides.length) * 100;
+      document.getElementById('progressFill').style.width = progress + '%';
+    }
+
+    // ===================== THEME =====================
+    function cycleTheme() {
+      currentTheme = (currentTheme + 1) % themes.length;
+      var theme = themes[currentTheme];
+      document.documentElement.className = 'theme-' + theme;
+      try { localStorage.setItem('theme', theme); } catch(e) {}
+    }
+
+    // Restore saved theme
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved && themes.indexOf(saved) !== -1) {
+        currentTheme = themes.indexOf(saved);
+        document.documentElement.className = 'theme-' + saved;
+      }
+    } catch(e) {}
+
+    // ===================== MENU =====================
+    function toggleMenu() {
+      var dropdown = document.getElementById('menuDropdown');
+      dropdown.classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+      var container = document.querySelector('.menu-container');
+      if (container && !container.contains(e.target)) {
+        document.getElementById('menuDropdown').classList.remove('open');
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('menuDropdown').classList.remove('open');
+      }
+    });
+
+    // ===================== PNG DOWNLOAD =====================
+    function downloadPNG() {
+      var menu = document.querySelector('.menu-container');
+      menu.style.display = 'none';
+      htmlToImage.toPng(document.body, { pixelRatio: 2 })
+        .then(function(dataUrl) {
+          var link = document.createElement('a');
+          link.download = 'aran-presentation.png';
+          link.href = dataUrl;
+          link.click();
+        })
+        .finally(function() {
+          menu.style.display = '';
+        });
+    }
+
+    // ===================== KEYBOARD NAVIGATION =====================
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') previousSlide();
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'Home') goToSlide(0);
+      if (e.key === 'End') goToSlide(slides.length - 1);
+    });
+
+    // ===================== START =====================
+    initializePresentation();
+  </script>
+
+</body>
+</html>
